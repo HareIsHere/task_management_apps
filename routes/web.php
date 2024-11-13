@@ -42,6 +42,8 @@ Route::get('roles/{roleId}/delete', [RoleController::class,'destroy']);
 Route::get('roles/{roleId}/give-permissions',[RoleController::class,'addPermissionToRole']);
 Route::put('roles/{roleId}/give-permissions',[RoleController::class,'givePermissionToRole']);
 Route::resource('tasks',TaskController::class);
-Route::resource('user', UserController::class);
+
+Route::resource('users', UserController::class);
+Route::get('users/{userId}/delete', [UserController::class ,'destroy']);
 
 require __DIR__.'/auth.php';

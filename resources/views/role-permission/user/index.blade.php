@@ -26,16 +26,23 @@
                                 <th class="py-3 px-6 text-left">ID</th>
                                 <th class="py-3 px-6 text-left">Name</th>
                                 <th class="py-3 px-6 text-left">Email</th>
+                                <th class="py-3 px-6 text-left">Role</th>
                                 <th class="py-3 px-6 text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-700 text-sm font-light">
                             @foreach ($users as $user)
-                            {{-- @dd($permission) --}}
                             <tr class="border-b border-gray-200 hover:bg-gray-100">
                                 <td class="py-3 px-6 text-left">{{ $user->id }}</td>
                                 <td class="py-3 px-6 text-left">{{ $user->name }}</td>
                                 <td class="py-3 px-6 text-left">{{ $user->email }}</td>
+                                <td class="py-3 px-6 text-left">
+                                    @if (!empty($user->getRoleNames()))
+                                        @foreach ($user->getRoleNames() as $rolename)
+                                            <label class="badge bg-primary mx-1">{{ $rolename }}</label>
+                                        @endforeach
+                                    @endif
+                                </td>
                                 <td class="py-3 px-6 text-center">
                                     <a href="{{ url('users/'.$user->id.'/edit') }}" class="text-green-200 hover:underline">Edit</a> |
                                     <a href="{{ url('users/'.$user->id.'/delete') }}" class="text-red-500 hover:underline">Delete</a>
