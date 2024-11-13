@@ -35,8 +35,8 @@
                                 <td class="py-3 px-6 text-left">{{ $permission ->id }}</td>
                                 <td class="py-3 px-6 text-left">{{ $permission->name }}</td>
                                 <td class="py-3 px-6 text-center">
-                                    <a href="{{ url('permission/'.$permission->id.'/edit') }}" class="text-blue-500 hover:underline">Edit</a> |
-                                    <a href="{{ url('permission/'.$permission->id.'/delete') }}" class="text-red-500 hover:underline">Delete</a>
+                                    <a href="{{ url('permissions/'.$permission->id.'/edit') }}" class="text-blue-500 hover:underline">Edit</a> |
+                                    <a href="{{ url('permissions/'.$permission->id.'/delete') }}" class="text-red-500 hover:underline">Delete</a>
                                 </td>
                             </tr>
                             @endforeach

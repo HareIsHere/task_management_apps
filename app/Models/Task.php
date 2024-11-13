@@ -12,5 +12,7 @@ class Task extends Model
         'title',
         'description',
         'is_completed',
+        'due_date',
+        'status', 
     ];
 }

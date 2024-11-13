@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->boolean('is_completed')->default(false);
+            $table->date('due_date')->nullable();
+            $table->enum('status', ['pending', 'in-progress', 'completed'])->default('pending');
             $table->timestamps();
         });
     }
@@ -22,6 +27,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        if (Schema::hasColumn('tasks', 'due_date') && Schema::hasColumn('tasks', 'status')) {
+            Schema::table('tasks', function (Blueprint $table) {
+                $table->dropColumn(['due_date', 'status']);
+            });
+        }
     }
 };

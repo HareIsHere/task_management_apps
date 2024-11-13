@@ -25,8 +25,19 @@ class RolePermissionSeeder extends Seeder
         ModelsPermission::create(['name'=>'hapus-user']);
         ModelsPermission::create(['name'=>'lihat-user']);
 
+        ModelsPermission::create(['name'=>'tambah-permissions']);
+        ModelsPermission::create(['name'=>'edit-permissions']);
+        ModelsPermission::create(['name'=>'hapus-permissions']);
+        ModelsPermission::create(['name'=>'lihat-permissions']);
+
+        ModelsPermission::create(['name'=>'tambah-role']);
+        ModelsPermission::create(['name'=>'edit-role']);
+        ModelsPermission::create(['name'=>'hapus-role']);
+        ModelsPermission::create(['name'=>'lihat-role']);
+
         Role::create(['name'=> 'admin']);
         Role::create(['name'=> 'manager']);
+
 
         $roleAdmin = Role::findByName('admin');
         $roleAdmin -> givePermissionTo('tambah-user');
