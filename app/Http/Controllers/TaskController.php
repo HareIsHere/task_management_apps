@@ -7,69 +7,73 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    // Tampilkan daftar semua tugas
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $tasks = Task::all();
         return view('tasks.index', compact('tasks'));
     }
 
-    // Tampilkan formulir untuk membuat tugas baru
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create()
     {
-        return view('tasks.form');
+        return view('tasks.create');
     }
 
-    // Simpan tugas baru ke database
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'status' => 'required|in:Pending,In Progress,Completed',
+            'description' => 'nullable|string',
         ]);
 
-        Task::create([
-            'title' => $request->title,
-            'status' => $request->status,
-            'description' => $request->description ?? '', // Jika ada field deskripsi
-        ]);
-
-        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
+        Task::create($request->all());
+        return redirect()->route('tasks.index')->with('status', 'Task Created Successfully');
     }
 
-    // Tampilkan detail tugas tertentu
+    /**
+     * Display the specified resource.
+     */
     public function show(Task $task)
     {
         return view('tasks.show', compact('task'));
     }
 
-    // Tampilkan formulir untuk mengedit tugas
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(Task $task)
     {
-        return view('tasks.form', compact('task'));
+        return view('tasks.edit', compact('task'));
     }
 
-    // Update tugas yang ada di database
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Task $task)
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'status' => 'required|in:Pending,In Progress,Completed',
+            'description' => 'nullable|string',
         ]);
 
-        $task->update([
-            'title' => $request->title,
-            'status' => $request->status,
-            'description' => $request->description ?? '',
-        ]);
-
-        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
+        $task->update($request->all());
+        return redirect()->route('tasks.index')->with('status', 'Task Updated Successfully');
     }
 
-    // Hapus tugas dari database
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Task $task)
     {
         $task->delete();
-        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
+        return redirect()->route('tasks.index')->with('status', 'Task Deleted Successfully');
     }
 }
