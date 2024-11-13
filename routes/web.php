@@ -23,21 +23,21 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('admin',function(){
-    return '<h1>Admin Page<h1>';
+Route::post('/permission',function(){
+    return view('');
 })->middleware(['auth','verified','role:admin']);
 
 Route::get('manager',function(){
     return '<h1>Manager Page<h1>';
 })->middleware(['auth','verified','role:manager|admin']);
 
-Route::get('tugas',function(){
-    return view('tugas');
-})->middleware(['auth','verified','role_or_permission:lihat-tugas|admin']);
+// Route::get('tugas',function(){
+//     return view('tugas');
+// })->middleware(['auth','verified','role_or_permission:lihat-tugas|admin']);
 
-Route::resource('permissions', PermissionController::class);
+Route::resource('permissions', PermissionController::class)->middleware(['auth','verified','role:admin']);
 Route::get('permissions/{permissionId}/delete', [PermissionController::class,'destroy']);
-Route::resource('roles', RoleController::class);
+Route::resource('roles', RoleController::class)->middleware(['auth','verified','role:admin']);;
 Route::get('roles/{roleId}/delete', [RoleController::class,'destroy']);
 Route::get('roles/{roleId}/give-permissions',[RoleController::class,'addPermissionToRole']);
 Route::put('roles/{roleId}/give-permissions',[RoleController::class,'givePermissionToRole']);
