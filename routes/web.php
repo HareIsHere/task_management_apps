@@ -35,15 +35,24 @@ Route::get('manager',function(){
 //     return view('tugas');
 // })->middleware(['auth','verified','role_or_permission:lihat-tugas|admin']);
 
-Route::resource('permissions', PermissionController::class)->middleware(['auth','verified','role:admin']);
-Route::get('permissions/{permissionId}/delete', [PermissionController::class,'destroy']);
-Route::resource('roles', RoleController::class)->middleware(['auth','verified','role:admin']);;
-Route::get('roles/{roleId}/delete', [RoleController::class,'destroy']);
+
+Route::group(['middleware'=>['auth']],function(){
+
+Route::resource('permissions', PermissionController::class);
+Route::get('permissions/{permissionId}/delete', [PermissionController::class,'destroy'])->middleware('permission:hapus-permissions');
+
+Route::resource('roles', RoleController::class);
+Route::get('roles/{roleId}/delete', [RoleController::class,'destroy'])->middleware('permission:hapus-role');
+
 Route::get('roles/{roleId}/give-permissions',[RoleController::class,'addPermissionToRole']);
 Route::put('roles/{roleId}/give-permissions',[RoleController::class,'givePermissionToRole']);
-Route::resource('tasks',TaskController::class);
 
-Route::resource('users', UserController::class);
-Route::get('users/{userId}/delete', [UserController::class ,'destroy']);
+Route::resource('tasks',TaskController::class)->middleware('permission:lihat-tugas|edit-tugas|hapus-tugas|tambah-tugas');
+
+Route::resource('users', UserController::class)->middleware('permission:lihat-user|tambah-user|edit-user');
+Route::get('users/{userId}/delete', [UserController::class ,'destroy'])->middleware('permission:hapus-user');
+
+});
+
 
 require __DIR__.'/auth.php';
